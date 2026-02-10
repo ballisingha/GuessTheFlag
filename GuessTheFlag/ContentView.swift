@@ -26,8 +26,7 @@ struct ContentView: View {
             VStack {
                 Spacer()
                 Text("Guess the flag")
-                    .font(.largeTitle.weight(.bold))
-                    .foregroundColor(.white)
+                    .titleStyle()
                 VStack(spacing: 15) {
                     VStack {
                         Text("Tap the flag of")
@@ -41,9 +40,7 @@ struct ContentView: View {
                             flagTapped(number)
                             
                         } label: {
-                            Image(countries[number])
-                                .clipShape(.capsule)
-                                .shadow(radius: 5)
+                            FlagImage(number)
                         }
                     }
                 }
@@ -75,6 +72,12 @@ struct ContentView: View {
         }
             
     }
+        
+    func FlagImage(_ number: Int) -> some View {
+        Image(countries[number])
+            .clipShape(.capsule)
+            .shadow(radius: 5)
+    }
     func resetGame() {
         score = 0
     }
@@ -91,6 +94,20 @@ struct ContentView: View {
     func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+    }
+}
+
+struct TextTitle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle)
+            .foregroundStyle(.blue)
+    }
+}
+
+extension View {
+    func titleStyle() -> some View {
+        modifier(TextTitle())
     }
 }
 
